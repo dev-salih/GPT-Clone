@@ -1,33 +1,31 @@
-const express = require("express");
+import "dotenv/config";
+import express from "express";
+import db from "./db/db.config.js";
 
 const app = express();
 
-// req -> middleware -> res
 
-function logger(req, res, next) {
-  const url = req.url;
-  const method = req.method;
-  console.log(url, method);
-  res.send("from logger middleware");
+app.post("/api/chat/conversations", async (req, res) => {
+  res.send('post method')
+});
+
+app.get("/api/chat/conversations", async (req, res) => {
+  res.send('get method')
+});
+
+
+async function startServer() {
+  try {
+    const connection = await db.getConnection();
+    connection.release(); // Release the connection back to the pool
+    console.log("Connected to the database successfully.");
+
+    app.listen(3000, () => {
+      console.log("Server is running on port http://localhost:3000");
+    });
+  } catch (error) {
+    console.error("Error connecting to the database:", error.message);
+  }
 }
 
-app.get("/",logger, (req, res) => {
-  res.send("Hello, World!");
-});
-
-app.get("/about",logger, (req, res) => {
-  res.send("Hello, World!, from about route");
-});
-
-app.get("/api/chat", (req, res) => {
-  res.send("Hello, World!, from chat route");
-});
-
-app.get("/api/conversation", (req, res) => {
-  res.send("Hello, World!, from conversation route");
-});
-
-
-app.listen(3000, () => {
-  console.log("Server is running on port http://localhost:3000");
-});
+startServer();
