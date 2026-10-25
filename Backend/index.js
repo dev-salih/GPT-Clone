@@ -1,17 +1,16 @@
 import "dotenv/config";
 import express from "express";
 import db from "./db/db.config.js";
+import mainRouter from "./src/api/main.routes.js";
+import { errorHandler } from "./src/middleware/error.handler.js";
 
 const app = express();
+app.use(express.json());
 
+app.use("/api", mainRouter);
 
-app.post("/api/chat/conversations", async (req, res) => {
-  res.send('post method')
-});
-
-app.get("/api/chat/conversations", async (req, res) => {
-  res.send('get method')
-});
+// Final middleware for error handling
+app.use(errorHandler)
 
 
 async function startServer() {
