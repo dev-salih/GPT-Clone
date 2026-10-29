@@ -5,4 +5,6 @@ const mainRouter = express.Router();
 // /api/chat 
 mainRouter.use("/chat", chatRouter);
 
+// /api/admin
+// mainRouter.use('/admin', adminRouter);
 export default mainRouter;

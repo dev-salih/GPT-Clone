@@ -19,7 +19,10 @@ async function startServer() {
     connection.release(); // Release the connection back to the pool
     console.log("Connected to the database successfully.");
 
-    app.listen(5000, () => {
+    app.listen(5000, err => {
+      if (err) {
+        throw err;
+      }
       console.log("Server is running on port http://localhost:5000");
     });
   } catch (error) {
